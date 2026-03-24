@@ -1,0 +1,25 @@
+repos:
+  - repo: https://github.com/antonbabenko/pre-commit-terraform
+    rev: v1.105.0
+    hooks:
+      - id: terraform_fmt
+      - id: terraform_validate
+      - id: terraform_checkov
+      - id: terraform_docs
+      - id: terraform_trivy
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v6.0.0
+    hooks:
+      - id: check-merge-conflict
+      - id: end-of-file-fixer
+
+  # - repo: https://github.com/bridgecrewio/yor
+  #   rev: 0.1.143
+  #   hooks:
+  #     - id: yor
+  #       name: yor
+  #       entry: yor tag -d
+  #       args: ["."]
+  #       language: golang
+  #       types: [terraform]
+  #       pass_filenames: false
