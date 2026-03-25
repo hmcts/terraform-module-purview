@@ -18,14 +18,9 @@ parameters:
     displayName: Component to Run
     type: object
     default:
-      - deployment: "shared-datagateway"
-        environment: "nonprod"
-        targetEnvironment: "nonprod"
-        resourceGroupName: azure-control-stg-rg
-        dependsOn: "Precheck"
-      - deployment: "shared-datagateway"
+      - deployment: "purview"
         environment: "prod"
-        targetEnvironment: "prod"
+        service_connection: "dcd-cftapps-prod"
         resourceGroupName: azure-control-prod-rg
         dependsOn: "Precheck"
   - name: overrideAction
@@ -37,8 +32,6 @@ parameters:
       - destroy
 
 variables:
-  - name: tfversion
-    value: 1.6.0
   - name: timeoutInMinutes
     value: "60"
   - name: agentPool
@@ -46,7 +39,7 @@ variables:
   - name: build
     value: $(Build.BuildNumber)
   - name: product
-    value: "hub"
+    value: "data-governance"
   - name: location
     value: "uksouth"
   - name: terraformInitSubscription
@@ -56,7 +49,7 @@ variables:
 stages:
   - stage: Precheck
     jobs:
-      - job:
+      - job: Precheck
         pool:
           vmImage: ${{ variables.agentPool }}
         timeoutInMinutes: ${{ variables.timeoutInMinutes }}
@@ -69,25 +62,29 @@ stages:
               overrideAction: ${{ parameters.overrideAction }}
 
   - ${{ each deployment in parameters.environment_components }}:
-      - stage: Infrastucture_${{ replace(variables.location, ' ', '_') }}_${{ deployment.environment }}
-        displayName: Infrastucture_${{ replace(variables.location, ' ', '_') }}_${{ deployment.environment }}
+      - stage: Infrastructure_${{ replace(variables.location, ' ', '_') }}_${{ deployment.environment }}
+        displayName: Infrastructure_${{ replace(variables.location, ' ', '_') }}_${{ deployment.environment }}
+        dependsOn: ${{ deployment.dependsOn }}
         condition: succeeded()
         jobs:
           - job: TerraformPlanApply
             pool:
-             vmImage: ${{ variables.agentPool }}
+              vmImage: ${{ variables.agentPool }}
+            timeoutInMinutes: ${{ variables.timeoutInMinutes }}
             steps:
-            - template: steps/terraform.yaml@cnp-azuredevops-libraries
-              parameters:
-                serviceConnection: "HMCTS-HUB-${{ upper(deployment.environment) }}-INTSVC"
-                product: $(product)
-                overrideAction: ${{ parameters.overrideAction }}
-                environment: ${{ deployment.environment }}
-                component: "infrastructure"
-                terraformInitSubscription: ${{ variables.terraformInitSubscription }}
-                initCommandOptions: >
-                  -reconfigure
-                  -backend-config resource_group_name=${{ deployment.resourceGroupName }}
-                planCommandOptions: >
-                  -compact-warnings
-                  -lock-timeout=30s
+              - template: steps/terraform.yaml@cnp-azuredevops-libraries
+                parameters:
+                  serviceConnection: ${{ deployment.service_connection }}
+                  product: ${{ variables.product }}
+                  overrideAction: ${{ parameters.overrideAction }}
+                  environment: ${{ deployment.environment }}
+                  component: "infrastructure"
+                  terraformInitSubscription: ${{ variables.terraformInitSubscription }}
+                  location: "UK South"
+                  tfVarsFile: "$(System.DefaultWorkingDirectory)/$(buildRepoSuffix)/environments/prod/dcd-cftapps-prod.tfvars"
+                  initCommandOptions: >
+                    -reconfigure
+                    -backend-config resource_group_name=${{ deployment.resourceGroupName }}
+                  planCommandOptions: >
+                    -compact-warnings
+                    -lock-timeout=30s

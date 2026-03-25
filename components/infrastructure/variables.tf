@@ -57,15 +57,12 @@ variable "additional_subnets" {
   default     = {}
 }
 
-variable "private_endpoint_trusted_source_address_prefixes" {
-  description = <<-EOT
-    CIDR prefixes allowed to send inbound HTTPS (TCP 443) to subnets associated with the NSG (private endpoint / services subnet).
-    Include peered hub ranges, build agent subnets, bastion, and any other trusted client networks per your PDF.
-  EOT
+variable "source_address_prefixes" {
+  description = "CIDR prefixes allowed to send inbound HTTPS (TCP 443)"
   type        = list(string)
 
   validation {
-    condition     = length(var.private_endpoint_trusted_source_address_prefixes) > 0
+    condition     = length(var.source_address_prefixes) > 0
     error_message = "Provide at least one trusted source CIDR for the NSG allow rule."
   }
 }

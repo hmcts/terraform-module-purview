@@ -43,7 +43,7 @@ module "networking" {
           protocol                     = "Tcp"
           source_port_range            = "*"
           destination_port_range       = "443"
-          source_address_prefixes      = var.private_endpoint_trusted_source_address_prefixes
+          source_address_prefixes      = var.source_address_prefixes
           destination_address_prefixes = var.address_space
           description                  = "HTTPS (443) from trusted subnets only; default deny inbound is DenyAllInbound priority 4096 from the networking module."
         }
