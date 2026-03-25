@@ -7,6 +7,8 @@ repos:
       - id: terraform_checkov
       - id: terraform_docs
       - id: terraform_trivy
+        args:
+            - --args=--skip-dirs=.terraform/modules
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v6.0.0
     hooks:

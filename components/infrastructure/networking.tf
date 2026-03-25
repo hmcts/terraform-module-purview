@@ -33,18 +33,19 @@ module "networking" {
 
   network_security_groups = {
     nsg = {
-      subnets = local.subnet_keys
+      subnets      = local.subnet_keys
+      deny_inbound = true
       rules = {
-        "Allow_SDS_PTL_ADO_Agents" = {
-          priority                     = 4000
+        Allow_Https_From_Trusted = {
+          priority                     = 1000
           direction                    = "Inbound"
           access                       = "Allow"
-          protocol                     = "*"
+          protocol                     = "Tcp"
           source_port_range            = "*"
-          destination_port_range       = "*"
-          source_address_prefixes      = concat(data.azurerm_subnet.ssptl-00.address_prefixes, data.azurerm_subnet.ssptl-01.address_prefixes)
+          destination_port_range       = "443"
+          source_address_prefixes      = var.private_endpoint_trusted_source_address_prefixes
           destination_address_prefixes = var.address_space
-          description                  = "Allow ADO agents to communicate with DLRM data ingest landing zone resources."
+          description                  = "HTTPS (443) from trusted subnets only; default deny inbound is DenyAllInbound priority 4096 from the networking module."
         }
       }
     }
@@ -54,6 +55,7 @@ module "networking" {
 module "vnet_peer_hub" {
   #checkov:skip=CKV_TF_1
   #checkov:skip=CKV_TF_2
+
   source = "github.com/hmcts/terraform-module-vnet-peering?ref=feat%2Ftweak-to-enable-planning-in-a-clean-env"
   peerings = {
     source = {

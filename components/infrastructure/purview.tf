@@ -1,5 +1,4 @@
 resource "azurerm_purview_account" "this" {
-  count                       = var.existing_purview_account == null ? 1 : 0
   name                        = "${local.name}-purview-${var.env}"
   resource_group_name         = local.resource_group
   location                    = local.location
