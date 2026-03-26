@@ -83,32 +83,40 @@ variable "hub_resource_group_name" {
 }
 
 variable "purview_private_dns_zone_id" {
-  description = <<-EOT
-    Full resource ID of an existing private DNS zone for privatelink.purview.azure.com (e.g. central networking).
-    If null, this module creates the zone in the workload resource group and links it to the Purview spoke VNet.
-    Only one zone with this name can exist per Azure subscription.
-  EOT
+  description = "Full resource ID of an existing private DNS zone for privatelink.purview.azure.com (e.g. central networking)"
+
+  type    = string
+  default = null
+}
+
+variable "purview_ingestion_blob_private_dns_zone_id" {
+  description = "Existing private DNS zone ID for privatelink.blob.core.windows.net (Purview managed storage ingestion)"
   type        = string
   default     = null
 }
 
-variable "purview_scan_private_dns_zone_id" {
-  description = <<-EOT
-    Full resource ID of an existing private DNS zone for privatelink.scan.purview.azure.com (ingestion / scan endpoint).
-    If null, this module creates the zone in the workload resource group and links it to the Purview spoke VNet.
-    Central zones may be managed in hmcts/azure-private-dns instead; pass the zone resource ID here when using those.
-  EOT
+variable "purview_ingestion_queue_private_dns_zone_id" {
+  description = "Existing private DNS zone ID for privatelink.queue.core.windows.net (Purview managed storage ingestion)"
   type        = string
   default     = null
+}
+
+variable "purview_ingestion_servicebus_private_dns_zone_id" {
+  description = "Existing private DNS zone ID for privatelink.servicebus.windows.net"
+
+  type    = string
+  default = null
+}
+
+variable "purview_ingestion_eventhub_namespace_pe_enabled" {
+  description = "Create a private endpoint for the Purview managed Event Hubs namespace. Set false when managed Event Hubs is disabled on the Purview account."
+  type        = bool
+  default     = true
 }
 
 variable "scan_identity_role_assignments" {
-  description = <<-EOT
-    Optional Azure RBAC assignments for the Purview scanning user-assigned managed identity.
-    Use scopes for data sources (e.g. storage account, resource group, or subscription resource IDs) with
-    Reader, Storage Blob Data Reader, or other roles required for your scan types.
-    Assigning this identity at the Purview root collection for scanning is done in Purview Studio (or Purview APIs), not here.
-  EOT
+  description = "Azure RBAC assignments for the Purview scanning user-assigned managed identity"
+
   type = list(object({
     scope                = string
     role_definition_name = string
