@@ -2,7 +2,7 @@ resource "azurerm_resource_group" "new" {
   name     = "${local.name}-rg-${var.env}"
   location = var.location
 
-  tags = merge(var.common_tags, {
+  tags = merge(module.ctags.common_tags, {
 
   })
 }

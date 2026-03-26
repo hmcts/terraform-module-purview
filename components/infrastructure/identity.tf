@@ -2,7 +2,7 @@ resource "azurerm_user_assigned_identity" "scan" {
   name                = "${local.name}-identity-${var.env}"
   resource_group_name = local.resource_group
   location            = local.location
-  tags                = var.common_tags
+  tags                = module.ctags.common_tags
 }
 
 resource "azurerm_role_assignment" "scan_identity" {
@@ -14,4 +14,5 @@ resource "azurerm_role_assignment" "scan_identity" {
   scope                = each.value.scope
   role_definition_name = each.value.role_definition_name
   principal_id         = azurerm_user_assigned_identity.scan.principal_id
+
 }
