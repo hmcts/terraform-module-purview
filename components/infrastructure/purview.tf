@@ -9,7 +9,7 @@ resource "azurerm_purview_account" "this" {
     type = "SystemAssigned"
   }
 
-  tags = merge(var.common_tags, {
+  tags = merge(module.ctags.common_tags, {
 
   })
 }
@@ -33,7 +33,7 @@ resource "azurerm_private_endpoint" "purview_endpoint" {
     private_dns_zone_ids = [each.value.private_dns_zone_id]
   }
 
-  tags = merge(var.common_tags, {
+  tags = merge(module.ctags.common_tags, {
 
   })
 }
