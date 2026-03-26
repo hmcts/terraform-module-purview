@@ -3,7 +3,7 @@ resource "azurerm_private_dns_zone" "purview" {
 
   name                = "privatelink.purview.azure.com"
   resource_group_name = local.resource_group
-  tags                = var.common_tags
+  tags                = module.ctags.common_tags
 }
 
 resource "azurerm_private_dns_zone_virtual_network_link" "purview_spoke" {
@@ -14,7 +14,7 @@ resource "azurerm_private_dns_zone_virtual_network_link" "purview_spoke" {
   private_dns_zone_name = azurerm_private_dns_zone.purview[0].name
   virtual_network_id    = module.networking.vnet_ids["vnet"]
   registration_enabled  = false
-  tags                  = var.common_tags
+  tags                  = module.ctags.common_tags
 }
 
 resource "azurerm_private_dns_zone" "purview_scan" {
@@ -22,7 +22,7 @@ resource "azurerm_private_dns_zone" "purview_scan" {
 
   name                = "privatelink.scan.purview.azure.com"
   resource_group_name = local.resource_group
-  tags                = var.common_tags
+  tags                = module.ctags.common_tags
 }
 
 resource "azurerm_private_dns_zone_virtual_network_link" "purview_scan_spoke" {
@@ -33,5 +33,5 @@ resource "azurerm_private_dns_zone_virtual_network_link" "purview_scan_spoke" {
   private_dns_zone_name = azurerm_private_dns_zone.purview_scan[0].name
   virtual_network_id    = module.networking.vnet_ids["vnet"]
   registration_enabled  = false
-  tags                  = var.common_tags
+  tags                  = module.ctags.common_tags
 }

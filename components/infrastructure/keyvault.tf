@@ -8,7 +8,7 @@ module "key_vault" {
   object_id           = data.azurerm_client_config.current.object_id
   resource_group_name = local.resource_group
   product_group_name  = local.is_prod ? "DTS Platform Operations" : "DTS Platform Operations SC"
-  common_tags         = var.common_tags
+  common_tags         = module.ctags.common_tags
   # AZU-0013: deny-by-default; allow traffic from the subnet that hosts the KV private endpoint.
   network_acls_default_action     = "Deny"
   network_acls_allowed_subnet_ids = [module.networking.subnet_ids["vnet-services"]]
@@ -34,7 +34,7 @@ resource "azurerm_private_endpoint" "kv_endpoint" {
     private_dns_zone_ids = ["/subscriptions/1baf5470-1c3e-40d3-a6f7-74bfbce4b348/resourceGroups/core-infra-intsvc-rg/providers/Microsoft.Network/privateDnsZones/privatelink.vaultcore.azure.net"]
   }
 
-  tags = var.common_tags
+  tags = module.ctags.common_tags
 }
 
 resource "azurerm_key_vault_access_policy" "purview" {

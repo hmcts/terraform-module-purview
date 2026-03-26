@@ -5,7 +5,7 @@ module "networking" {
 
   env                          = var.env
   product                      = "purview"
-  common_tags                  = var.common_tags
+  common_tags                  = module.ctags.common_tags
   component                    = "networking"
   name                         = local.name
   location                     = var.location
