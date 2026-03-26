@@ -14,11 +14,10 @@ locals {
   resource_group_id = azurerm_resource_group.new.id
   location          = azurerm_resource_group.new.location
 
-  # Subnets for terraform-module-azure-virtual-networking (pattern: terraform-module-data-management-zone interpolated-defaults).
   base_subnets = {
     services = {
       address_prefixes  = coalesce(var.services_subnet_address_prefixes, var.address_space)
-      service_endpoints = []
+      service_endpoints = ["Microsoft.KeyVault"]
       delegations       = null
     }
   }
