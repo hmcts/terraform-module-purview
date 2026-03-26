@@ -1,15 +1,11 @@
 locals {
   # Mirrors github.com/hmcts/terraform-module-log-analytics-workspace-id (subscription for HMCTS LAW).
   log_analytics_workspace_env_mapping = {
-    sandbox = ["idam-saat", "idam-vault-saat", "idam-sandbox", "idam-vault-sandbox", "sandbox", "sbox", "sbox-int", "ptlsbox"]
-    nonprod = ["dev", "idam-preview", "idam-vault-preview", "preview", "test", "idam-ithc", "idam-vault-ithc", "ithc", "idam-demo", "idam-vault-demo", "demo", "stg", "idam-aat", "idam-vault-aat", "idam-aat2", "idam-vault-aat2", "aat", "idam-perftest", "idam-vault-perftest", "perftest", "nonprodi"]
-    prod    = ["idam-prod", "idam-prod2", "idam-vault-prod", "idam-vault-prod2", "prod", "mgmt", "ldata", "prod-int", "ptl"]
+    prod = ["idam-prod", "idam-prod2", "idam-vault-prod", "idam-vault-prod2", "prod", "mgmt", "ldata", "prod-int", "ptl"]
   }
 
   log_analytics_subscription_id = {
-    sandbox = "bf308a5c-0624-4334-8ff8-8dca9fd43783"
-    nonprod = "1c4f0704-a29e-403d-b719-b90c34ef14c9"
-    prod    = "8999dec3-0104-4a27-94ee-6588559729d1"
+    prod = "8999dec3-0104-4a27-94ee-6588559729d1"
   }[[for x in keys(local.log_analytics_workspace_env_mapping) : x if contains(local.log_analytics_workspace_env_mapping[x], var.env)][0]]
 
   is_prod           = length(regexall(".*(prod).*", var.env)) > 0

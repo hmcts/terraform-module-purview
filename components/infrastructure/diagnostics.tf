@@ -7,7 +7,7 @@ module "logworkspace" {
 }
 
 resource "azurerm_monitor_diagnostic_setting" "purview_account" {
-  name                       = "${local.name}-purview-${var.env}"
+  name                       = "${local.name}-${var.env}"
   target_resource_id         = azurerm_purview_account.this.id
   log_analytics_workspace_id = module.logworkspace.workspace_id
 
