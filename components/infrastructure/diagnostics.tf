@@ -16,10 +16,6 @@ resource "azurerm_monitor_diagnostic_setting" "purview_account" {
   }
 
   enabled_log {
-    category = "DataSensitivity"
-  }
-
-  enabled_log {
     category = "Security"
   }
 
