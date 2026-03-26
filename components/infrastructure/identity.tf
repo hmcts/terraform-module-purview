@@ -5,6 +5,14 @@ resource "azurerm_user_assigned_identity" "scan" {
   tags                = module.ctags.common_tags
 }
 
+resource "azurerm_role_assignment" "purview_account_rbac" {
+  for_each = local.purview_rbac_assignments
+
+  scope                = azurerm_purview_account.this.id
+  principal_id         = each.value.principal_id
+  role_definition_name = each.value.role_definition_name
+}
+
 resource "azurerm_role_assignment" "scan_identity" {
   for_each = {
     for i, a in var.scan_identity_role_assignments :

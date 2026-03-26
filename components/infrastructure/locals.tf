@@ -65,4 +65,19 @@ locals {
       private_dns_zone_id = local.purview_privatelink_dns_zone_id
     }
   }
+
+  purview_rbac_assignments = {
+    for pair in flatten([
+      for principal_id, cfg in var.purview_rbac_access : [
+        for role in cfg.role_definition_names : {
+          key                  = "${principal_id}::${role}"
+          principal_id         = principal_id
+          role_definition_name = role
+        }
+      ]
+      ]) : pair.key => {
+      principal_id         = pair.principal_id
+      role_definition_name = pair.role_definition_name
+    }
+  }
 }

@@ -46,6 +46,7 @@ In Azure you need
 | [azurerm_private_endpoint.purview_endpoint](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/private_endpoint) | resource |
 | [azurerm_purview_account.this](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/purview_account) | resource |
 | [azurerm_resource_group.new](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/resource_group) | resource |
+| [azurerm_role_assignment.purview_account_rbac](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/role_assignment) | resource |
 | [azurerm_role_assignment.scan_identity](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/role_assignment) | resource |
 | [azurerm_user_assigned_identity.scan](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/user_assigned_identity) | resource |
 | [azurerm_resource_group.existing](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/resource_group) | data source |
@@ -57,6 +58,7 @@ In Azure you need
 | <a name="input_address_space"></a> [address\_space](#input\_address\_space) | The address space covered by the virtual network. | `list(string)` | n/a | yes |
 | <a name="input_common_tags"></a> [common\_tags](#input\_common\_tags) | Common tag to be applied to resources | `map(string)` | n/a | yes |
 | <a name="input_scan_identity_role_assignments"></a> [scan\_identity\_role\_assignments](#input\_scan\_identity\_role\_assignments) | Optional Azure RBAC for the Purview scanning UAMI (scopes should be data sources). Purview collection assignment is in Purview Studio. | <pre>list(object({<br/>    scope                = string<br/>    role_definition_name = string<br/>  }))</pre> | `[]` | no |
+| <a name="input_purview_rbac_access"></a> [purview\_rbac\_access](#input\_purview\_rbac\_access) | Azure RBAC on the Purview account: Entra principal object ID (user or group) to list of built-in role names (e.g. Owner, Contributor). | <pre>map(object({<br/>    role_definition_names = list(string)<br/>  }))</pre> | `{}` | no |
 | <a name="input_default_route_next_hop_ip"></a> [default\_route\_next\_hop\_ip](#input\_default\_route\_next\_hop\_ip) | IP address of the next hop for the default route, this will usually be the private ip config of the Palo Load Balancer. | `string` | n/a | yes |
 | <a name="input_env"></a> [env](#input\_env) | Environment value | `string` | n/a | yes |
 | <a name="input_existing_purview_account"></a> [existing\_purview\_account](#input\_existing\_purview\_account) | Details of an existing purview account to use, if not specified a new one will be created. | <pre>object({<br/>    resource_id                              = string<br/>    managed_storage_account_id               = optional(string)<br/>    managed_event_hub_namespace_id           = optional(string)<br/>    self_hosted_integration_runtime_auth_key = optional(string)<br/>    identity = object({<br/>      principal_id = string<br/>      tenant_id    = string<br/>    })<br/>  })</pre> | `null` | no |
@@ -71,6 +73,7 @@ In Azure you need
 
 | Name | Description |
 |------|-------------|
+| <a name="output_purview_account_id"></a> [purview\_account\_id](#output\_purview\_account\_id) | Resource ID of the Microsoft Purview account (for Azure RBAC scope). |
 | <a name="output_purview_scan_identity_client_id"></a> [purview\_scan\_identity\_client\_id](#output\_purview\_scan\_identity\_client\_id) | Client ID of the scanning user-assigned identity. |
 | <a name="output_purview_scan_identity_id"></a> [purview\_scan\_identity\_id](#output\_purview\_scan\_identity\_id) | Resource ID of the scanning user-assigned identity for Purview. |
 | <a name="output_purview_scan_identity_principal_id"></a> [purview\_scan\_identity\_principal\_id](#output\_purview\_scan\_identity\_principal\_id) | Object ID of the scanning user-assigned identity. |
