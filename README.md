@@ -2,6 +2,23 @@
 
 [Purview Design OverView](https://tools.hmcts.net/confluence/pages/viewpage.action?pageId=1958051973&spaceKey=DTSPO&title=Purview%2BDesign)
 
+## Prerequisites
+
+### Microsoft.Purview resource provider
+
+The **target subscription** must register the **Microsoft.Purview** resource provider before this module can create a Purview account.
+
+If it is not registered, apply fails with `MissingSubscriptionRegistration` (HTTP 409). See [Register resource providers](https://aka.ms/rps-not-found).
+
+1. Select the subscription:
+   ```bash
+   az account set --subscription <subscription-id>
+   az provider register --namespace Microsoft.Purview
+   az provider show --namespace Microsoft.Purview --query "registrationState" -o tsv
+   ```
+
+In Azure you need
+
 ## Requirements
 
 | Name | Version |
