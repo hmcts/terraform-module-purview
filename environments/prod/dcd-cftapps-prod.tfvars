@@ -22,12 +22,12 @@ additional_kv_access_policies = {
 }
 
 purview_rbac_access = {
-  # Platform Ops
-  "f5879b74-fbca-4b31-aff0-232aed82a58e" = {
+  # DTS Platform Operations SC
+  "4d0554dd-fe60-424a-be9c-36636826d927" = {
     role_definition_names = ["Owner"]
   }
-  # another principal later:
-  # "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee" = {
-  #   role_definition_names = ["Contributor", "Reader"]
-  # }
+  # DTS Platform Operations
+  "e7ea2042-4ced-45dd-8ae3-e051c6551789" = {
+    role_definition_names = ["Owner"]
+  }
 }
