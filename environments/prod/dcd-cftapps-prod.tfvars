@@ -24,10 +24,10 @@ additional_kv_access_policies = {
 purview_rbac_access = {
   # DTS Platform Operations SC
   "4d0554dd-fe60-424a-be9c-36636826d927" = {
-    role_definition_names = ["Owner"]
+    role_definition_names = ["Purview Administrator"]
   }
   # DTS Platform Operations
   "e7ea2042-4ced-45dd-8ae3-e051c6551789" = {
-    role_definition_names = ["Owner"]
+    role_definition_names = ["Purview Administrator"]
   }
 }
