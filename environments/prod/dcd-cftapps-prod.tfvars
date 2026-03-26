@@ -1,4 +1,5 @@
-env = "prod"
+env  = "prod"
+name = "cftapps-purview"
 common_tags = {
   environment  = "prod"
   application  = "purview"
@@ -11,4 +12,11 @@ address_space             = ["10.111.111.0/24"]
 source_address_prefixes   = ["10.111.111.0/24"]
 hub_vnet_name             = "hmcts-hub-prod-int"
 hub_resource_group_name   = "hmcts-hub-prod-int"
-product                   = "data-governance"
+product                   = "hub"
+
+additional_kv_access_policies = {
+  # DTS Bootstrap (sub:dcd-cftapps-prod)
+  "5560d892-9d16-43d8-8d76-c0d6a70fb39a" = {
+    secret_permissions = ["Get", "List"]
+  }
+}

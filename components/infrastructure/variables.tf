@@ -68,7 +68,7 @@ variable "source_address_prefixes" {
 }
 
 variable "hub_subscription_id" {
-  default = "fb084706-583f-4c9a-bdab-949aac66ba5c"
+  default = "0978315c-75fe-4ada-9d11-1eb5e0e0b214" # HMCTS-HUB-PROD-INTSVC
   type    = string
 }
 

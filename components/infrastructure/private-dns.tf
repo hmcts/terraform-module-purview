@@ -9,7 +9,7 @@ resource "azurerm_private_dns_zone" "purview" {
 resource "azurerm_private_dns_zone_virtual_network_link" "purview_spoke" {
   count = var.purview_private_dns_zone_id == null ? 1 : 0
 
-  name                  = "${local.name}-purview-${var.env}-spoke"
+  name                  = "${local.name}-${var.env}-spoke"
   resource_group_name   = local.resource_group
   private_dns_zone_name = azurerm_private_dns_zone.purview[0].name
   virtual_network_id    = module.networking.vnet_ids["vnet"]
@@ -28,7 +28,7 @@ resource "azurerm_private_dns_zone" "purview_scan" {
 resource "azurerm_private_dns_zone_virtual_network_link" "purview_scan_spoke" {
   count = var.purview_scan_private_dns_zone_id == null ? 1 : 0
 
-  name                  = "${local.name}-purview-scan-${var.env}-spoke"
+  name                  = "${local.name}-scan-${var.env}-spoke"
   resource_group_name   = local.resource_group
   private_dns_zone_name = azurerm_private_dns_zone.purview_scan[0].name
   virtual_network_id    = module.networking.vnet_ids["vnet"]

@@ -18,7 +18,7 @@ parameters:
     displayName: Component to Run
     type: object
     default:
-      - deployment: "purview"
+      - deployment: "terraform-module-purview"
         environment: "prod"
         service_connection: "dcd-cftapps-prod"
         resourceGroupName: azure-control-prod-rg
@@ -39,7 +39,7 @@ variables:
   - name: build
     value: $(Build.BuildNumber)
   - name: product
-    value: "data-governance"
+    value: "hub"
   - name: location
     value: "uksouth"
   - name: terraformInitSubscription
@@ -82,9 +82,5 @@ stages:
                   terraformInitSubscription: ${{ variables.terraformInitSubscription }}
                   location: "UK South"
                   tfVarsFile: "$(System.DefaultWorkingDirectory)/$(buildRepoSuffix)/environments/prod/dcd-cftapps-prod.tfvars"
-                  initCommandOptions: >
-                    -reconfigure
-                    -backend-config resource_group_name=${{ deployment.resourceGroupName }}
-                  planCommandOptions: >
-                    -compact-warnings
-                    -lock-timeout=30s
+                  initCommandOptions: '-reconfigure -backend-config resource_group_name=${{ deployment.resourceGroupName }}'
+                  planCommandOptions: '-compact-warnings -lock-timeout=30s'
