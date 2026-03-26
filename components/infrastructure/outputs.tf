@@ -8,6 +8,11 @@ output "resource_group_location" {
   description = "The Azure region."
 }
 
+output "purview_account_id" {
+  value       = azurerm_purview_account.this.id
+  description = "Resource ID of the Microsoft Purview account (for Azure RBAC scope)."
+}
+
 output "purview_scan_identity_id" {
   value       = azurerm_user_assigned_identity.scan.id
   description = "Resource ID of the user-assigned managed identity intended for Purview scanning (register in Purview root collection / credentials in Purview Studio)."

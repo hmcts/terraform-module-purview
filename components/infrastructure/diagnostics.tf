@@ -12,7 +12,11 @@ resource "azurerm_monitor_diagnostic_setting" "purview_account" {
   log_analytics_workspace_id = module.logworkspace.workspace_id
 
   enabled_log {
-    category = "ScanStatus"
+    category = "ScanStatusLogEvent"
+  }
+
+  enabled_log {
+    category = "DataSensitivityLogEvent"
   }
 
   enabled_log {

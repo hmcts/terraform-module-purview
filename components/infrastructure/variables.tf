@@ -145,3 +145,11 @@ variable "nsg_flow_log_retention_days" {
   type        = number
   default     = 180
 }
+
+variable "purview_rbac_access" {
+  description = "Azure RBAC on the Purview account: Entra group/user object ID -> role names"
+  type = map(object({
+    role_definition_names = list(string)
+  }))
+  default = {}
+}

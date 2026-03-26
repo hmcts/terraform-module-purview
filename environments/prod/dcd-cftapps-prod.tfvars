@@ -20,3 +20,14 @@ additional_kv_access_policies = {
     secret_permissions = ["Get", "List"]
   }
 }
+
+purview_rbac_access = {
+  # Platform Ops
+  "f5879b74-fbca-4b31-aff0-232aed82a58e" = {
+    role_definition_names = ["Owner"]
+  }
+  # another principal later:
+  # "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee" = {
+  #   role_definition_names = ["Contributor", "Reader"]
+  # }
+}
