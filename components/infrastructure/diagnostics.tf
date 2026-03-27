@@ -35,21 +35,12 @@ resource "azurerm_monitor_diagnostic_setting" "key_vault" {
   target_resource_id         = module.key_vault.key_vault_id
   log_analytics_workspace_id = module.logworkspace.workspace_id
 
-  # Explicit retention_policy matches Azure API read; omitting it causes perpetual drift each plan.
   enabled_log {
     category = "AuditEvent"
-    retention_policy {
-      enabled = false
-      days    = 0
-    }
   }
 
   enabled_log {
     category = "AzurePolicyEvaluationDetails"
-    retention_policy {
-      enabled = false
-      days    = 0
-    }
   }
 
   lifecycle {

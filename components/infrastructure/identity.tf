@@ -24,14 +24,3 @@ resource "azurerm_role_assignment" "scan_identity" {
   principal_id         = azurerm_user_assigned_identity.scan.principal_id
 
 }
-
-
-
-# # List of Purview-specific roles to assign
-# variable "purview_roles" {
-#   default = [
-#     "Purview Data Curator",
-#     "Purview Data Source Administrator",
-#     "Purview Collection Administrator"
-#   ]
-# }
