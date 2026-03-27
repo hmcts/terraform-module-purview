@@ -14,6 +14,13 @@ hub_vnet_name             = "hmcts-hub-prod-int"
 hub_resource_group_name   = "hmcts-hub-prod-int"
 product                   = "hub"
 
+# Central private DNS (azure-private-dns: core-infra-intsvc-rg, purview-private-link.yml).
+# Use this instead of creating a second privatelink.purview.azure.com in the spoke RG.
+# VNet link for cftapps-purview-vnet-prod is managed only in azure-private-dns.
+# If state still has spoke-created azurerm_private_dns_zone.purview, first apply will destroy it;
+# if that conflicts, remove those resources from state after PEs point at this zone ID.
+purview_private_dns_zone_id = "/subscriptions/1baf5470-1c3e-40d3-a6f7-74bfbce4b348/resourceGroups/core-infra-intsvc-rg/providers/Microsoft.Network/privateDnsZones/privatelink.purview.azure.com"
+
 additional_kv_access_policies = {
   # DTS Bootstrap (sub:dcd-cftapps-prod)
   "5560d892-9d16-43d8-8d76-c0d6a70fb39a" = {
