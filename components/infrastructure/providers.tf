@@ -10,6 +10,11 @@ terraform {
       configuration_aliases = [azurerm.hub, azurerm.log_analytics]
       version               = ">= 4.65.0"
     }
+
+    azapi = {
+      source  = "Azure/azapi"
+      version = "~> 2.9"
+    }
   }
 }
 
@@ -30,4 +35,7 @@ provider "azurerm" {
   features {}
   resource_provider_registrations = "none"
   subscription_id                 = local.log_analytics_subscription_id
+}
+
+provider "azapi" {
 }
