@@ -27,10 +27,14 @@ additional_kv_access_policies = {
 purview_rbac_access = {
   # DTS Platform Operations SC
   "4d0554dd-fe60-424a-be9c-36636826d927" = {
-    role_definition_names = ["Purview Data Source Administrator", "Purview Data Curator"]
+    role_definition_names = ["Contributor"]
   }
   # DTS Platform Operations
   "e7ea2042-4ced-45dd-8ae3-e051c6551789" = {
-    role_definition_names = ["Purview Data Source Administrator", "Purview Data Curator"]
+    role_definition_names = ["Contributor"]
   }
 }
+
+purview_root_collection_admin_object_ids = [
+  "cec0b134-6e3b-43af-b987-99e8be93729b"
+]

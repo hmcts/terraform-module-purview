@@ -153,3 +153,9 @@ variable "purview_rbac_access" {
   }))
   default = {}
 }
+
+variable "purview_root_collection_admin_object_ids" {
+  type        = set(string)
+  description = "Entra ID object IDs (users or groups) to add as Purview root collection admins"
+  default     = []
+}
