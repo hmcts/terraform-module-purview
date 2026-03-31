@@ -35,6 +35,7 @@ This module expects **three** `azurerm` provider configurations: default (spoke/
 |------|---------|
 | <a name="provider_azapi"></a> [azapi](#provider\_azapi) | ~> 2.9 |
 | <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) | >= 4.65.0 |
+| <a name="provider_azurerm.log_analytics"></a> [azurerm.log\_analytics](#provider\_azurerm.log\_analytics) | >= 4.65.0 |
 
 ## Modules
 
@@ -85,7 +86,7 @@ This module expects **three** `azurerm` provider configurations: default (spoke/
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | <a name="input_additional_kv_access_policies"></a> [additional\_kv\_access\_policies](#input\_additional\_kv\_access\_policies) | Additional access policies to add to the key vault | <pre>map(object({<br/>    secret_permissions      = optional(list(string), [])<br/>    certificate_permissions = optional(list(string), [])<br/>    key_permissions         = optional(list(string), [])<br/>  }))</pre> | `{}` | no |
-| <a name="input_additional_subnets"></a> [additional\_subnets](#input\_additional\_subnets) | Extra subnets merged with the default services subnet; keys become vnet-<key> in subnet_ids (see terraform-module-azure-virtual-networking). | `map(any)` | `{}` | no |
+| <a name="input_additional_subnets"></a> [additional\_subnets](#input\_additional\_subnets) | Extra subnets merged with the default services subnet; keys become vnet-<key> in subnet\_ids (see terraform-module-azure-virtual-networking). | `map(any)` | `{}` | no |
 | <a name="input_address_space"></a> [address\_space](#input\_address\_space) | The address space covered by the virtual network. | `list(string)` | n/a | yes |
 | <a name="input_builtFrom"></a> [builtFrom](#input\_builtFrom) | n/a | `string` | `"hmcts/terraform-module-purview"` | no |
 | <a name="input_common_tags"></a> [common\_tags](#input\_common\_tags) | Common tag to be applied to resources | `map(string)` | n/a | yes |
@@ -108,7 +109,7 @@ This module expects **three** `azurerm` provider configurations: default (spoke/
 | <a name="input_purview_rbac_access"></a> [purview\_rbac\_access](#input\_purview\_rbac\_access) | Azure RBAC on the Purview account: Entra group/user object ID -> role names | <pre>map(object({<br/>    role_definition_names = list(string)<br/>  }))</pre> | `{}` | no |
 | <a name="input_purview_root_collection_admin_object_ids"></a> [purview\_root\_collection\_admin\_object\_ids](#input\_purview\_root\_collection\_admin\_object\_ids) | Entra ID object IDs (users or groups) to add as Purview root collection admins | `set(string)` | `[]` | no |
 | <a name="input_scan_identity_role_assignments"></a> [scan\_identity\_role\_assignments](#input\_scan\_identity\_role\_assignments) | Azure RBAC assignments for the Purview scanning user-assigned managed identity | <pre>list(object({<br/>    scope                = string<br/>    role_definition_name = string<br/>  }))</pre> | `[]` | no |
-| <a name="input_services_subnet_address_prefixes"></a> [services\_subnet\_address\_prefixes](#input\_services\_subnet\_address\_prefixes) | CIDRs for the services subnet (private endpoints, Purview/KV PEs). Defaults to address_space when null. | `list(string)` | `null` | no |
+| <a name="input_services_subnet_address_prefixes"></a> [services\_subnet\_address\_prefixes](#input\_services\_subnet\_address\_prefixes) | CIDRs for the services subnet (private endpoints, Purview/KV PEs). Defaults to address\_space when null. | `list(string)` | `null` | no |
 | <a name="input_source_address_prefixes"></a> [source\_address\_prefixes](#input\_source\_address\_prefixes) | CIDR prefixes allowed to send inbound HTTPS (TCP 443) | `list(string)` | n/a | yes |
 
 ## Outputs
