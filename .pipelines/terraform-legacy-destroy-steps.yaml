@@ -40,6 +40,7 @@ steps:
   - checkout: self
     clean: true
     fetchDepth: 0
+    persistCredentials: true
   - checkout: cnp-azuredevops-libraries
     clean: true
   - checkout: purview-azure-infrastructure
@@ -53,8 +54,15 @@ steps:
         set -euo pipefail
         REPO="$(echo "$(Build.Repository.Name)" | cut -d'/' -f2)"
         cd "$(System.DefaultWorkingDirectory)/$REPO"
+        LEGACY="${{ parameters.legacyCommit }}"
+        # ADO often shallow-checks out self even with fetchDepth: 0; legacy SHA is not at the branch tip.
+        if ! git cat-file -e "${LEGACY}^{commit}" 2>/dev/null; then
+          git fetch --unshallow 2>/dev/null || true
+          git fetch --no-tags --prune origin "${LEGACY}"
+        fi
+        git cat-file -e "${LEGACY}^{commit}"
         mkdir -p legacy/infrastructure
-        git archive "${{ parameters.legacyCommit }}" | tar -xC legacy/infrastructure
+        git archive "${LEGACY}" | tar -xC legacy/infrastructure
 
   - bash: echo ${{ parameters.environment }}
     displayName: Display environment parameter

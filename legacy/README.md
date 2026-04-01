@@ -8,7 +8,7 @@ Before this repository was a **pure Terraform module**, it contained a root conf
 
 ## Reference commit (from git history)
 
-This SHA exists on `origin` for `hmcts/terraform-module-purview` (parent of `89cf064` / `feat: purview module init`). The destroy pipeline checks out the repo with **full history** (`fetchDepth: 0`) so `git archive` can resolve the commit.
+This SHA exists on `origin` for `hmcts/terraform-module-purview` (parent of `89cf064` / `feat: purview module init`). The pipeline YAML requests a full checkout (`fetchDepth: 0`), but Azure DevOps may still shallow-clone the triggering branch; the **Materialize legacy Terraform** step therefore runs `git fetch origin <legacyCommit>` before `git archive` so the tree is always present.
 
 - **`712d2e2a07957845655d7858b85692f775f41b20`** — last tree **before** the module layout, suitable for `git archive` into `legacy/infrastructure/`.
 
