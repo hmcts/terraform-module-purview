@@ -1,7 +1,8 @@
 # Fork of cnp-azuredevops-libraries/steps/terraform.yaml for one-off legacy teardown.
 # Differences:
 # - Tfvars live in this repo under environments/ (copied from purview-azure-infrastructure).
-# - Materializes pre-module Terraform from git (git archive) into legacy/infrastructure.
+# - Materializes pre-module Terraform from git (git archive) into legacy/<component>/.
+#   At the reference commit the root module lives under components/<component>/ (not the archive root).
 # - Terraform destroy runs without requiring isMain (manual/branch runs).
 # Keep in sync with upstream when behaviour changes.
 
@@ -59,8 +60,8 @@ steps:
           git fetch --no-tags --prune origin "${LEGACY}"
         fi
         git cat-file -e "${LEGACY}^{commit}"
-        mkdir -p legacy/infrastructure
-        git archive "${LEGACY}" | tar -xC legacy/infrastructure
+        mkdir -p "legacy/${{ parameters.component }}"
+        git archive "${LEGACY}" | tar -xC "legacy/${{ parameters.component }}"
 
   - bash: echo ${{ parameters.environment }}
     displayName: Display environment parameter
@@ -90,7 +91,7 @@ steps:
   - template: steps/install-use-tfswitch.yaml@cnp-azuredevops-libraries
     parameters:
       tfswitchArgs: -b ~/.local/bin/terraform
-      workingDirectory: '$(System.DefaultWorkingDirectory)/$(buildRepoSuffix)/legacy/${{ parameters.component }}'
+      workingDirectory: '$(System.DefaultWorkingDirectory)/$(buildRepoSuffix)/legacy/${{ parameters.component }}/components/${{ parameters.component }}'
 
   - task: Bash@3
     displayName: Build resource values
@@ -108,7 +109,7 @@ steps:
     displayName: Terraform init (legacy state)
     inputs:
       command: init
-      workingDirectory: '$(System.DefaultWorkingDirectory)/$(buildRepoSuffix)/legacy/${{ parameters.component }}'
+      workingDirectory: '$(System.DefaultWorkingDirectory)/$(buildRepoSuffix)/legacy/${{ parameters.component }}/components/${{ parameters.component }}'
       backendType: azurerm
       ensureBackend: false
       backendServiceArm: ${{ parameters.serviceConnection }}
@@ -124,14 +125,14 @@ steps:
     displayName: Terraform validate
     inputs:
       command: validate
-      workingDirectory: '$(System.DefaultWorkingDirectory)/$(buildRepoSuffix)/legacy/${{ parameters.component }}'
+      workingDirectory: '$(System.DefaultWorkingDirectory)/$(buildRepoSuffix)/legacy/${{ parameters.component }}/components/${{ parameters.component }}'
 
   - task: TerraformCLI@2
     displayName: Terraform plan (destroy preview)
     condition: and(succeeded(), eq('${{ parameters.overrideAction }}', 'plan'))
     inputs:
       command: plan
-      workingDirectory: '$(System.DefaultWorkingDirectory)/$(buildRepoSuffix)/legacy/${{ parameters.component }}'
+      workingDirectory: '$(System.DefaultWorkingDirectory)/$(buildRepoSuffix)/legacy/${{ parameters.component }}/components/${{ parameters.component }}'
       environmentServiceName: ${{ parameters.serviceConnection }}
       runAzLogin: true
       publishPlanResults: "$(tfPlanName)"
@@ -149,7 +150,7 @@ steps:
     condition: and(succeeded(), eq('${{ parameters.overrideAction }}', 'destroy'))
     inputs:
       command: destroy
-      workingDirectory: '$(System.DefaultWorkingDirectory)/$(buildRepoSuffix)/legacy/${{ parameters.component }}'
+      workingDirectory: '$(System.DefaultWorkingDirectory)/$(buildRepoSuffix)/legacy/${{ parameters.component }}/components/${{ parameters.component }}'
       environmentServiceName: ${{ parameters.serviceConnection }}
       runAzLogin: true
       commandOptions: >
