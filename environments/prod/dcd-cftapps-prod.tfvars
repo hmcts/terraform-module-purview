@@ -1,5 +1,5 @@
 env  = "prod"
-name = "cftapps-purview"
+name = "cft-purview"
 common_tags = {
   environment  = "prod"
   application  = "purview"
@@ -13,6 +13,8 @@ source_address_prefixes   = ["10.111.111.0/24"]
 
 cftapps_prod_subscription_id = "8999dec3-0104-4a27-94ee-6588559729d1"
 
+# Legacy root defaults hub_subscription_id to nonprod hub; prod hub VNet is in HMCTS-HUB-PROD-INTSVC.
+hub_subscription_id     = "0978315c-75fe-4ada-9d11-1eb5e0e0b214"
 hub_vnet_name             = "hmcts-hub-prod-int"
 hub_resource_group_name   = "hmcts-hub-prod-int"
 product                   = "hub"
