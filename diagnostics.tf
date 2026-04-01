@@ -30,26 +30,6 @@ resource "azurerm_monitor_diagnostic_setting" "purview_account" {
   }
 }
 
-resource "azurerm_monitor_diagnostic_setting" "key_vault" {
-  name                       = "${local.name}-kv-${var.env}"
-  target_resource_id         = module.key_vault.key_vault_id
-  log_analytics_workspace_id = module.logworkspace.workspace_id
-
-  enabled_log {
-    category = "AuditEvent"
-  }
-
-  enabled_log {
-    category = "AzurePolicyEvaluationDetails"
-  }
-
-  lifecycle {
-    ignore_changes = [
-      metric,
-    ]
-  }
-}
-
 resource "azurerm_monitor_diagnostic_setting" "network_security_group" {
   name                       = "${local.name}-nsg-${var.env}"
   target_resource_id         = module.networking.network_security_groups_ids["nsg"]
