@@ -1,0 +1,90 @@
+# One-off pipeline: tear down Azure resources created when this repo was a root Terraform
+# project (before "feat: purview module init"). Uses the same remote state key pattern as
+# HMCTS pipelines: <location>/<product>/<repo>/prod/infrastructure/terraform.tfstate
+#
+# Reference commit (last pre-module root layout per git history): 712d2e2a07957845655d7858b85692f775f41b20
+# (parent of 89cf064 "feat: purview module init"). Materialized at runtime via git archive.
+#
+# If your state was migrated to purview-azure-infrastructure, run destroy from that repo instead.
+#
+# Manual runs only — register this YAML in Azure DevOps and run with parameter overrideAction.
+
+name: terraform-module-purview-legacy-destroy
+
+# Manual runs only: in Azure DevOps choose "Run pipeline" and pick branch (e.g. feat/legacy-destroy-pipeline).
+trigger: none
+pr: none
+
+resources:
+  repositories:
+    - repository: cnp-azuredevops-libraries
+      type: github
+      ref: master
+      name: hmcts/cnp-azuredevops-libraries
+      endpoint: hmcts
+    - repository: purview-azure-infrastructure
+      type: github
+      ref: master
+      name: hmcts/purview-azure-infrastructure
+      endpoint: hmcts
+
+parameters:
+  - name: overrideAction
+    displayName: Terraform action (run plan first, then destroy)
+    type: string
+    default: plan
+    values:
+      - plan
+      - destroy
+  - name: legacyCommit
+    displayName: Git commit (full SHA) for pre-module Terraform tree (git archive)
+    type: string
+    default: '712d2e2a07957845655d7858b85692f775f41b20'
+
+variables:
+  - name: timeoutInMinutes
+    value: "120"
+  - name: agentPool
+    value: ubuntu-latest
+  - name: terraformInitSubscription
+    value: 04d27a32-7a07-48b3-95b8-3c8691e1a263
+  - template: vars/input-variables.yaml@cnp-azuredevops-libraries
+
+stages:
+  - stage: Precheck
+    jobs:
+      - job: Precheck
+        pool:
+          vmImage: ${{ variables.agentPool }}
+        timeoutInMinutes: ${{ variables.timeoutInMinutes }}
+        steps:
+          - template: steps/terraform-precheck.yaml@cnp-azuredevops-libraries
+            parameters:
+              keyvaultName: 'infra-vault-nonprod'
+              keyvaultSecret: 'azure-devops-sp-token'
+              serviceConnection: 'DCD-CFT-Sandbox'
+              overrideAction: ${{ parameters.overrideAction }}
+
+  - stage: LegacyDestroy
+    displayName: Legacy Terraform plan or destroy
+    dependsOn: Precheck
+    condition: succeeded()
+    jobs:
+      - job: TerraformLegacyDestroy
+        pool:
+          vmImage: ${{ variables.agentPool }}
+        timeoutInMinutes: ${{ variables.timeoutInMinutes }}
+        steps:
+          - template: .pipelines/terraform-legacy-destroy-steps.yaml
+            parameters:
+              serviceConnection: dcd-cftapps-prod
+              environment: prod
+              product: hub
+              component: infrastructure
+              terraformInitSubscription: ${{ variables.terraformInitSubscription }}
+              overrideAction: ${{ parameters.overrideAction }}
+              legacyCommit: ${{ parameters.legacyCommit }}
+              initCommandOptions: '-reconfigure -backend-config resource_group_name=azure-control-prod-rg'
+              planCommandOptions: '-destroy -compact-warnings -lock-timeout=30s'
+              destroyCommandOptions: '-compact-warnings -lock-timeout=30s'
+              tfVarsFile: '$(System.DefaultWorkingDirectory)/purview-azure-infrastructure/environments/prod/dcd-cftapps-prod.tfvars'

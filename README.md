@@ -20,6 +20,10 @@ If it is not registered, apply fails with `MissingSubscriptionRegistration` (HTT
 
 This module expects **three** `azurerm` provider configurations: default (spoke/workload), `azurerm.hub` (hub subscription for peering), and `azurerm.log_analytics` (subscription where the central Log Analytics workspace lives). Pass them in via `providers` when calling the module.
 
+### Legacy root state (teardown)
+
+If you previously applied Terraform **from this repository** before it was module-only, remote state may still exist under `terraform-module-purview` in the shared backend. Use the manual pipeline [`azure-pipelines-destroy.yaml`](azure-pipelines-destroy.yaml): register it in Azure DevOps, then **run it from branch `feat/legacy-destroy-pipeline`** (or another branch that contains that YAML) so you can plan/destroy **without merging to `master`**. The pipeline is `trigger: none` — only manual runs. Details and the reference git commit are in [`legacy/README.md`](legacy/README.md).
+
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
 
