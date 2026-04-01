@@ -1,6 +1,6 @@
 # Fork of cnp-azuredevops-libraries/steps/terraform.yaml for one-off legacy teardown.
 # Differences:
-# - Extra checkout: hmcts/purview-azure-infrastructure (tfvars).
+# - Tfvars live in this repo under environments/ (copied from purview-azure-infrastructure).
 # - Materializes pre-module Terraform from git (git archive) into legacy/infrastructure.
 # - Terraform destroy runs without requiring isMain (manual/branch runs).
 # Keep in sync with upstream when behaviour changes.
@@ -43,8 +43,6 @@ steps:
     persistCredentials: true
   - checkout: cnp-azuredevops-libraries
     clean: true
-  - checkout: purview-azure-infrastructure
-    path: purview-azure-infrastructure
 
   - task: Bash@3
     displayName: Materialize legacy Terraform root (git archive)
