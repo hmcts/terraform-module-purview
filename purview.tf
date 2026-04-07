@@ -2,7 +2,7 @@ resource "azurerm_purview_account" "this" {
   name                        = "${local.name}-${var.env}"
   resource_group_name         = local.resource_group
   location                    = local.location
-  public_network_enabled      = false
+  public_network_enabled      = var.public_network_enabled
   managed_resource_group_name = "${local.name}-${var.env}"
 
   identity {

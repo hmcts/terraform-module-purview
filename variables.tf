@@ -158,3 +158,9 @@ variable "purview_root_collection_admin_object_ids" {
   description = "Entra ID object IDs (users or groups) to add as Purview root collection admins"
   default     = []
 }
+
+variable "public_network_enabled" {
+  description = "Enable public network access for the Purview account"
+  type        = bool
+  default     = false
+}
