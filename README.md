@@ -70,6 +70,7 @@ This module expects **three** `azurerm` provider configurations: default (spoke/
 | [azurerm_private_endpoint.purview_ingestion](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/private_endpoint) | resource |
 | [azurerm_purview_account.this](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/purview_account) | resource |
 | [azurerm_resource_group.new](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/resource_group) | resource |
+| [azurerm_role_assignment.purview_account_identity](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/role_assignment) | resource |
 | [azurerm_role_assignment.purview_account_rbac](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/role_assignment) | resource |
 | [azurerm_role_assignment.scan_identity](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/role_assignment) | resource |
 | [azurerm_user_assigned_identity.scan](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/user_assigned_identity) | resource |
@@ -99,6 +100,7 @@ This module expects **three** `azurerm` provider configurations: default (spoke/
 | <a name="input_nsg_flow_log_storage_account_id"></a> [nsg\_flow\_log\_storage\_account\_id](#input\_nsg\_flow\_log\_storage\_account\_id) | Storage account required by NSG flow logs | `string` | `null` | no |
 | <a name="input_product"></a> [product](#input\_product) | https://hmcts.github.io/glossary/#product | `string` | n/a | yes |
 | <a name="input_public_network_enabled"></a> [public\_network\_enabled](#input\_public\_network\_enabled) | Enable public network access for the Purview account | `bool` | `false` | no |
+| <a name="input_purview_account_identity_role_assignments"></a> [purview\_account\_identity\_role\_assignments](#input\_purview\_account\_identity\_role\_assignments) | Azure RBAC for the Purview account system-assigned MI (Synapse Reader, Storage Blob Data Reader on external scopes, etc.). | <pre>list(object({<br/>    scope                = string<br/>    role_definition_name = string<br/>  }))</pre> | `[]` | no |
 | <a name="input_purview_ingestion_blob_private_dns_zone_id"></a> [purview\_ingestion\_blob\_private\_dns\_zone\_id](#input\_purview\_ingestion\_blob\_private\_dns\_zone\_id) | Existing private DNS zone ID for privatelink.blob.core.windows.net (Purview managed storage ingestion) | `string` | `null` | no |
 | <a name="input_purview_ingestion_eventhub_namespace_pe_enabled"></a> [purview\_ingestion\_eventhub\_namespace\_pe\_enabled](#input\_purview\_ingestion\_eventhub\_namespace\_pe\_enabled) | Create a private endpoint for the Purview managed Event Hubs namespace. Set false when managed Event Hubs is disabled on the Purview account. | `bool` | `true` | no |
 | <a name="input_purview_ingestion_queue_private_dns_zone_id"></a> [purview\_ingestion\_queue\_private\_dns\_zone\_id](#input\_purview\_ingestion\_queue\_private\_dns\_zone\_id) | Existing private DNS zone ID for privatelink.queue.core.windows.net (Purview managed storage ingestion) | `string` | `null` | no |
@@ -115,6 +117,7 @@ This module expects **three** `azurerm` provider configurations: default (spoke/
 | Name | Description |
 |------|-------------|
 | <a name="output_purview_account_id"></a> [purview\_account\_id](#output\_purview\_account\_id) | Resource ID of the Microsoft Purview account (for Azure RBAC scope). |
+| <a name="output_purview_account_identity_principal_id"></a> [purview\_account\_identity\_principal\_id](#output\_purview\_account\_identity\_principal\_id) | Object ID of the Purview account system-assigned managed identity. |
 | <a name="output_purview_scan_identity_client_id"></a> [purview\_scan\_identity\_client\_id](#output\_purview\_scan\_identity\_client\_id) | Client ID of the scanning user-assigned identity. |
 | <a name="output_purview_scan_identity_id"></a> [purview\_scan\_identity\_id](#output\_purview\_scan\_identity\_id) | Resource ID of the user-assigned managed identity intended for Purview scanning (register in Purview root collection / credentials in Purview Studio). |
 | <a name="output_purview_scan_identity_principal_id"></a> [purview\_scan\_identity\_principal\_id](#output\_purview\_scan\_identity\_principal\_id) | Object (principal) ID of the scanning user-assigned identity, for Azure RBAC and Purview. |
