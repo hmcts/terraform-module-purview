@@ -72,6 +72,7 @@ This module expects **three** `azurerm` provider configurations: default (spoke/
 | [azurerm_resource_group.new](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/resource_group) | resource |
 | [azurerm_role_assignment.purview_account_identity](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/role_assignment) | resource |
 | [azurerm_role_assignment.purview_account_rbac](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/role_assignment) | resource |
+| [azurerm_role_assignment.purview_team_synapse_reader](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/role_assignment) | resource |
 | [azurerm_role_assignment.scan_identity](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/role_assignment) | resource |
 | [azurerm_user_assigned_identity.scan](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/user_assigned_identity) | resource |
 | [azurerm_client_config.current](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/client_config) | data source |
@@ -111,6 +112,7 @@ This module expects **three** `azurerm` provider configurations: default (spoke/
 | <a name="input_scan_identity_role_assignments"></a> [scan\_identity\_role\_assignments](#input\_scan\_identity\_role\_assignments) | Azure RBAC assignments for the Purview scanning user-assigned managed identity | <pre>list(object({<br/>    scope                = string<br/>    role_definition_name = string<br/>  }))</pre> | `[]` | no |
 | <a name="input_services_subnet_address_prefixes"></a> [services\_subnet\_address\_prefixes](#input\_services\_subnet\_address\_prefixes) | CIDRs for the services subnet (private endpoints, Purview/KV PEs). Defaults to address\_space when null. | `list(string)` | `null` | no |
 | <a name="input_source_address_prefixes"></a> [source\_address\_prefixes](#input\_source\_address\_prefixes) | CIDR prefixes allowed to send inbound HTTPS (TCP 443) | `list(string)` | n/a | yes |
+| <a name="input_synapse_reader_for_purview_team"></a> [synapse\_reader\_for\_purview\_team](#input\_synapse\_reader\_for\_purview\_team) | Optional. Grants Azure RBAC Reader on Synapse workspace resources to an Entra group (e.g. Purview team registration). Terraform identity needs User Access Administrator or Owner on each workspace subscription. | <pre>object({<br/>    principal_id     = string<br/>    workspace_scopes = list(string)<br/>  })</pre> | `null` | no |
 
 ## Outputs
 

@@ -68,7 +68,7 @@ variable "source_address_prefixes" {
 }
 
 variable "hub_subscription_id" {
-  type    = string
+  type = string
 }
 
 variable "hub_vnet_name" {
@@ -172,4 +172,13 @@ variable "purview_account_identity_role_assignments" {
     role_definition_name = string
   }))
   default = []
+}
+
+variable "synapse_reader_for_purview_team" {
+  description = "Optional. Grants Azure RBAC Reader on Synapse workspace resources to an Entra group (e.g. Purview team registration). Terraform identity needs User Access Administrator or Owner on each workspace subscription."
+  type = object({
+    principal_id     = string
+    workspace_scopes = list(string)
+  })
+  default = null
 }
