@@ -164,3 +164,12 @@ variable "public_network_enabled" {
   type        = bool
   default     = false
 }
+
+variable "purview_account_identity_role_assignments" {
+  description = "Azure RBAC for the Purview account system-assigned MI (Synapse Reader, Storage Blob Data Reader on external scopes, etc.)."
+  type = list(object({
+    scope                = string
+    role_definition_name = string
+  }))
+  default = []
+}
