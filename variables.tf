@@ -88,6 +88,11 @@ variable "purview_private_dns_zone_id" {
   default = null
 }
 
+variable "key_vault_private_dns_zone_id" {
+  description = "Full resource ID of privatelink.vaultcore.azure.net for the Key Vault private endpoint (central DNS, e.g. DTS-CFTPTL-INTSVC / core-infra-intsvc-rg)."
+  type        = string
+}
+
 variable "purview_ingestion_blob_private_dns_zone_id" {
   description = "Existing private DNS zone ID for privatelink.blob.core.windows.net (Purview managed storage ingestion)"
   type        = string

@@ -28,10 +28,9 @@ resource "azurerm_private_endpoint" "kv_endpoint" {
     is_manual_connection           = false
   }
 
-  # needs addressing
   private_dns_zone_group {
     name                 = "endpoint-dnszonegroup"
-    private_dns_zone_ids = ["/subscriptions/${data.azurerm_subscription.current.subscription_id}/resourceGroups/core-infra-intsvc-rg/providers/Microsoft.Network/privateDnsZones/privatelink.vaultcore.azure.net"]
+    private_dns_zone_ids = [var.key_vault_private_dns_zone_id]
   }
 
 
