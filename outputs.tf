@@ -27,3 +27,8 @@ output "purview_scan_identity_client_id" {
   value       = azurerm_user_assigned_identity.scan.client_id
   description = "Client ID of the scanning user-assigned identity."
 }
+
+output "purview_account_identity_principal_id" {
+  value       = azurerm_purview_account.this.identity[0].principal_id
+  description = "Object ID of the Purview account system-assigned managed identity."
+}

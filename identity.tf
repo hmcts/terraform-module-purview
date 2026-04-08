@@ -24,3 +24,14 @@ resource "azurerm_role_assignment" "scan_identity" {
   principal_id         = azurerm_user_assigned_identity.scan.principal_id
 
 }
+
+resource "azurerm_role_assignment" "purview_account_identity" {
+  for_each = {
+    for a in var.purview_account_identity_role_assignments :
+    "${a.role_definition_name}::${a.scope}" => a
+  }
+
+  scope                = each.value.scope
+  role_definition_name = each.value.role_definition_name
+  principal_id         = azurerm_purview_account.this.identity[0].principal_id
+}
