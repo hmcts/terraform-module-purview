@@ -95,6 +95,7 @@ This module expects **three** `azurerm` provider configurations: default (spoke/
 | <a name="input_hub_resource_group_name"></a> [hub\_resource\_group\_name](#input\_hub\_resource\_group\_name) | The name of the resource group containing the HUB virtual network. | `string` | n/a | yes |
 | <a name="input_hub_subscription_id"></a> [hub\_subscription\_id](#input\_hub\_subscription\_id) | n/a | `string` | n/a | yes |
 | <a name="input_hub_vnet_name"></a> [hub\_vnet\_name](#input\_hub\_vnet\_name) | The name of the HUB virtual network. | `string` | n/a | yes |
+| <a name="input_key_vault_private_dns_zone_id"></a> [key\_vault\_private\_dns\_zone\_id](#input\_key\_vault\_private\_dns\_zone\_id) | Full resource ID of privatelink.vaultcore.azure.net for the Key Vault private endpoint (central DNS, e.g. DTS-CFTPTL-INTSVC / core-infra-intsvc-rg). | `string` | n/a | yes |
 | <a name="input_location"></a> [location](#input\_location) | defualt Azure location to deploy the resource | `string` | `"UK South"` | no |
 | <a name="input_name"></a> [name](#input\_name) | The default name will be data-governance+env, you can override the data-governance part by setting this | `string` | `null` | no |
 | <a name="input_nsg_flow_log_retention_days"></a> [nsg\_flow\_log\_retention\_days](#input\_nsg\_flow\_log\_retention\_days) | Retention in days for NSG flow log | `number` | `180` | no |
@@ -120,6 +121,7 @@ This module expects **three** `azurerm` provider configurations: default (spoke/
 |------|-------------|
 | <a name="output_purview_account_id"></a> [purview\_account\_id](#output\_purview\_account\_id) | Resource ID of the Microsoft Purview account (for Azure RBAC scope). |
 | <a name="output_purview_account_identity_principal_id"></a> [purview\_account\_identity\_principal\_id](#output\_purview\_account\_identity\_principal\_id) | Object ID of the Purview account system-assigned managed identity. |
+| <a name="output_purview_managed_resources"></a> [purview\_managed\_resources](#output\_purview\_managed\_resources) | ARM IDs for Purview-managed Event Hub namespace, resource group, and storage account. |
 | <a name="output_purview_scan_identity_client_id"></a> [purview\_scan\_identity\_client\_id](#output\_purview\_scan\_identity\_client\_id) | Client ID of the scanning user-assigned identity. |
 | <a name="output_purview_scan_identity_id"></a> [purview\_scan\_identity\_id](#output\_purview\_scan\_identity\_id) | Resource ID of the user-assigned managed identity intended for Purview scanning (register in Purview root collection / credentials in Purview Studio). |
 | <a name="output_purview_scan_identity_principal_id"></a> [purview\_scan\_identity\_principal\_id](#output\_purview\_scan\_identity\_principal\_id) | Object (principal) ID of the scanning user-assigned identity, for Azure RBAC and Purview. |

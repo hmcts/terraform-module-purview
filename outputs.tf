@@ -32,3 +32,12 @@ output "purview_account_identity_principal_id" {
   value       = azurerm_purview_account.this.identity[0].principal_id
   description = "Object ID of the Purview account system-assigned managed identity."
 }
+
+output "purview_managed_resources" {
+  value = {
+    event_hub_namespace_id = azurerm_purview_account.this.managed_resources[0].event_hub_namespace_id
+    resource_group_id      = azurerm_purview_account.this.managed_resources[0].resource_group_id
+    storage_account_id     = azurerm_purview_account.this.managed_resources[0].storage_account_id
+  }
+  description = "ARM IDs for Purview-managed Event Hub namespace, resource group, and storage account."
+}
