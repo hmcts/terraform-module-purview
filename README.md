@@ -42,7 +42,7 @@ This module expects **three** `azurerm` provider configurations: default (spoke/
 | Name | Source | Version |
 |------|--------|---------|
 | <a name="module_ctags"></a> [ctags](#module\_ctags) | git::https://github.com/hmcts/terraform-module-common-tags.git | master |
-| <a name="module_key_vault"></a> [key\_vault](#module\_key\_vault) | github.com/hmcts/cnp-module-key-vault | master |
+| <a name="module_key_vault"></a> [key\_vault](#module\_key\_vault) | github.com/hmcts/cnp-module-key-vault | DTSPO-31695/remove-jenkins-ptl-access |
 | <a name="module_logworkspace"></a> [logworkspace](#module\_logworkspace) | git::https://github.com/hmcts/terraform-module-log-analytics-workspace-id.git | master |
 | <a name="module_networking"></a> [networking](#module\_networking) | github.com/hmcts/terraform-module-azure-virtual-networking | main |
 | <a name="module_vnet_peer_hub"></a> [vnet\_peer\_hub](#module\_vnet\_peer\_hub) | github.com/hmcts/terraform-module-vnet-peering | feat%2Ftweak-to-enable-planning-in-a-clean-env |
